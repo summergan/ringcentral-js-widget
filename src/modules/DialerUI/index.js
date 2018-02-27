@@ -9,6 +9,8 @@ import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
 import moduleActionTypes from 'ringcentral-integration/enums/moduleActionTypes';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
+import sleep from 'ringcentral-integration/lib/sleep';
+import styles from '../../components/ContactDropdownList/styles.scss';
 
 function getToNumberFieldReducer(types) {
   return (state = '', { type, phoneNumber }) => {
@@ -150,6 +152,7 @@ export default class DialerUI extends RcModule {
   async call({
     phoneNumber = '',
     recipient = null,
+    isAutoSelected = false,
   }) {
     if (phoneNumber || recipient) {
       this.store.dispatch({
@@ -157,6 +160,10 @@ export default class DialerUI extends RcModule {
         phoneNumber,
         recipient,
       });
+      if (isAutoSelected) {
+        await sleep(100);
+        document.querySelector(`.${styles.active} .${styles.clickable}`).click();
+      }
       try {
         await this._call.call({
           phoneNumber: this.toNumberField,
