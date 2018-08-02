@@ -6,7 +6,6 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 export default function MessagesLogIcon({
-  conversationId,
   disabled,
   onClick,
   currentLocale,
@@ -14,10 +13,13 @@ export default function MessagesLogIcon({
   const tooltip = i18n.getString('log', currentLocale);
   return (
     <div
-      className={styles.messagesLog}
+      className={classnames(
+        styles.messageLog,
+        disabled && styles.disabledMessageLog,
+      )}
       onClick={(e) => {
         e.stopPropagation();
-        if (!disabled) onClick(conversationId);
+        if (!disabled) onClick();
       }}
       title={tooltip}>
       <MessagesLog className={styles.logIcon} />
@@ -27,13 +29,11 @@ export default function MessagesLogIcon({
 
 MessagesLogIcon.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  conversationId: PropTypes.string,
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 MessagesLogIcon.defaultProps = {
-  conversationId: '',
   disabled: false,
   onClick() {},
 };

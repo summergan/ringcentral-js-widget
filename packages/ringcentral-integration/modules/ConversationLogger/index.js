@@ -87,7 +87,7 @@ export default class ConversationLogger extends LoggerBase {
     });
 
     this.addSelector('conversationLogMap',
-      () => this._messageStore.messages,
+      () => this._messageStore.allConversations,
       () => this._extensionInfo.extensionNumber,
       () => this._conversationMatcher.dataMapping,
       (messages, extensionNumber, conversationLogMapping = {}) => {

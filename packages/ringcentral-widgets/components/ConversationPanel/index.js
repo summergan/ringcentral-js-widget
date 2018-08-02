@@ -156,7 +156,7 @@ class ConversationPanel extends Component {
     this.setState({ loaded: true });
   }
 
-  async logConversation({ redirect = true, selected, prefill = true }) {
+  async logConversation({ redirect = true, selected, prefill = true } = {}) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted && !this.state.isLogging
     ) {
@@ -215,8 +215,15 @@ class ConversationPanel extends Component {
     const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
-
-    const logButton = this.props.onLogConversation ?
+    const extraButton = this.props.renderExtraButton ?
+      this.props.renderExtraButton(
+        this.props.conversation,
+        {
+          logConversation: this.logConversation,
+          isLogging: isLogging || this.state.isLogging,
+        }
+      ) : null;
+    const logButton = this.props.onLogConversation && !extraButton ?
       (
         <LogButton
           className={styles.logButton}
@@ -227,9 +234,6 @@ class ConversationPanel extends Component {
           currentLocale={this.props.currentLocale}
         />
       ) :
-      null;
-    const extraButton = this.props.renderExtraButton ?
-      this.props.renderExtraButton(this.props.conversation) :
       null;
     return (
       <div className={styles.root}>

@@ -208,7 +208,7 @@ export default class MessageItem extends Component {
   }
   createSelectedContact = this.createSelectedContact.bind(this);
 
-  async logConversation({ redirect = true, selected, prefill = true }) {
+  async logConversation({ redirect = true, selected, prefill = true } = {}) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
@@ -403,7 +403,15 @@ export default class MessageItem extends Component {
       );
       slideMenuHeight = 88;
     }
-    const extraButton = renderExtraButton ? renderExtraButton(this.props.conversation) : null;
+    const extraButton = renderExtraButton ?
+      renderExtraButton(
+        this.props.conversation,
+        {
+          logConversation: this.logConversation,
+          isLogging: isLogging || this.state.isLogging,
+        }
+      )
+      : null;
     return (
       <div className={styles.root} onClick={this.onClickItem}>
         <div
@@ -476,7 +484,10 @@ export default class MessageItem extends Component {
           <ActionMenuList
             className={styles.actionMenuList}
             currentLocale={currentLocale}
-            onLog={isVoicemail || isFax ? undefined : (onLogConversation && this.logConversation)}
+            onLog={
+              isVoicemail || isFax || extraButton ?
+                undefined : (onLogConversation && this.logConversation)
+            }
             onViewEntity={onViewContact && this.viewSelectedContact}
             onCreateEntity={onCreateContact && this.createSelectedContact}
             hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
