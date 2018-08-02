@@ -228,6 +228,9 @@ class ConversationPanel extends Component {
         />
       ) :
       null;
+    const extraButton = this.props.renderExtraButton ?
+      this.props.renderExtraButton(this.props.conversation) :
+      null;
     return (
       <div className={styles.root}>
         <div className={styles.header}>
@@ -258,6 +261,9 @@ class ConversationPanel extends Component {
           >
             <span className={dynamicsFont.arrow} />
           </a>
+          {extraButton && (
+            <div className={styles.logButton}>{extraButton}</div>
+          )}
           {logButton}
         </div>
         {conversationBody}
@@ -308,6 +314,7 @@ ConversationPanel.propTypes = {
   perPage: PropTypes.number,
   conversationId: PropTypes.string.isRequired,
   loadConversation: PropTypes.func,
+  renderExtraButton: PropTypes.func,
   loadingNextPage: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
@@ -323,6 +330,7 @@ ConversationPanel.defaultProps = {
   messageSubjectRenderer: undefined,
   perPage: undefined,
   loadConversation: () => null,
+  renderExtraButton: () => null,
   loadingNextPage: false
 };
 
