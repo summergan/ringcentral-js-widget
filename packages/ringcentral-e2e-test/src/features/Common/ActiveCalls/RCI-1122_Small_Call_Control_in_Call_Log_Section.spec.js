@@ -55,7 +55,7 @@ import DialOutCall from '../../../steps/commons/Dialer/dialOutCall';
 
 describe('Commom ActiveCalls: =====>', () => {
   test({
-    title: 'Small Call Control in Call Log Section',
+    title: 'Small Call Control in Call Log Section reject',
     tags: [
       ['salesforce'],
     ],
@@ -113,7 +113,7 @@ describe('Commom ActiveCalls: =====>', () => {
   });
 
   test({
-    title: 'Small Call Control in Call Log Section',
+    title: 'Small Call Control in Call Log Section answerCall',
     tags: [
       ['salesforce'],
     ],
@@ -182,7 +182,7 @@ describe('Commom ActiveCalls: =====>', () => {
   });
 
   test({
-    title: 'Small Call Control in Call Log Section',
+    title: 'Small Call Control in Call Log Section perAnswerCall',
     tags: [
       ['salesforce'],
     ],
